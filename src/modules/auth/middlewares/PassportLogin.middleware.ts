@@ -34,7 +34,7 @@ passport.use(new LocalStrategy(
         return done(null, false, response );
       }
 
-      user.comparePassword(password,(err: unknown, isMatch: boolean)=>{
+      user.comparePassword(password,(_err: unknown, isMatch: boolean)=>{
         if(isMatch){
           return done(null, user);
         }

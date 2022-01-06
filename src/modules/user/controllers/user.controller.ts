@@ -7,7 +7,7 @@ import userService from "../services/user.service";
 class UsersController {
     //Create a new user
     async registration(req: express.Request, res: express.Response){
-        res.status(200).json(userService.addUser(req.body));
+        return res.status(200).json(userService.addUser(req.body));
     }
 }
 

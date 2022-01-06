@@ -5,7 +5,7 @@ import * as expressWinston from 'express-winston';
 import cors from 'cors';
 import debug from 'debug';
 
-import { CommonRoutesConfig } from './modules/common/common.routes.config';
+//import { CommonRoutesConfig } from './modules/common/common.routes.config';
 import { initRoutes } from './modules/index';
 
 import * as dotenv from 'dotenv';
@@ -15,7 +15,7 @@ const app: express.Application = express();
 const setupApp = ()=>{
     //const server: http.Server = http.createServer(app);
     const port:number = parseInt(process.env.app_port) || 3000;
-    const routes: Array<CommonRoutesConfig> = [];
+    //const routes: Array<CommonRoutesConfig> = [];
     const debugLog: debug.IDebugger = debug('app');
 
     dotenv.config({
@@ -23,14 +23,12 @@ const setupApp = ()=>{
     });
 
     debugLog("process.env.app_port**",port);
-    // here we are adding middleware to parse all incoming requests as JSON 
-    app.use(express.json());
-
+    
     // here we are adding middleware to allow cross-origin requests
     app.use(cors());
 
     app.use(express.json());
-    app.use(express.urlencoded({ extended: true}));
+    app.use(express.urlencoded({ extended: false}));
 
     // here we are preparing the expressWinston logging middleware configuration,
     // which will automatically log all HTTP requests handled by Express.js
@@ -52,14 +50,16 @@ const setupApp = ()=>{
 
     // here we are adding the UserRoutes to our array,
     // after sending the Express.js application object to have the routes added to our app!
-    initRoutes(app,routes);
+    //initRoutes(app,routes);
+    initRoutes(app);
 
     // this is a simple route to make sure everything is working properly
     const runningMessage = `Server running at http://localhost:${port}`;
-    app.get('/', (req: express.Request, res: express.Response) => {
+    app.get('/', (_req: express.Request, res: express.Response) => {
         res.status(200).send(runningMessage)
     });
 
+    
     app.listen(port,()=>{
         app.emit("app_started");
     });

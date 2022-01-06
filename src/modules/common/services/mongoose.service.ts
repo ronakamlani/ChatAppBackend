@@ -3,6 +3,8 @@ import debug from 'debug';
 
 import * as dotenv from 'dotenv';
 
+import { MongoMemoryServer } from 'mongodb-memory-server';
+
 dotenv.config({
     path : `.env.${process.env.NODE_ENV}`,
 });
@@ -20,6 +22,8 @@ class MongooseService {
         //useFindAndModify: false,
     };
 
+    private mongoMemoryServer:MongoMemoryServer;
+
     constructor() {
         this.connectWithRetry();
     }
@@ -28,22 +32,39 @@ class MongooseService {
         return mongoose;
     }
 
-    connectWithRetry = () => {
+    _connetMongoUri(uri:string){
+        return mongoose
+            .connect(uri,this.mongooseOptions);
+    }
+
+    connectWithRetry = async() => {
         log('Attempting MongoDB connection (will retry if needed)',process.env.MONGO_URI);
-        mongoose
-            .connect(process.env.MONGO_URI || '', this.mongooseOptions)
-            .then(() => {
-                log('MongoDB is connected');
-            })
-            .catch((err) => {
-                const retrySeconds = 5;
-                log(
-                    `MongoDB connection unsuccessful (will retry #${++this
-                        .count} after ${retrySeconds} seconds):`,
-                    err
-                );
-                setTimeout(this.connectWithRetry, retrySeconds * 1000);
-            });
+
+        this.mongoMemoryServer =  await MongoMemoryServer.create();
+        const uri = process.env.NODE_ENV !== 'test' ? process.env.MONGO_URI || '': this.mongoMemoryServer.getUri();
+            
+        this._connetMongoUri(uri)
+        .then(() => {
+            log('MongoDB is connected');
+        })
+        .catch((err) => {
+            const retrySeconds = 5;
+            log(
+                `MongoDB connection unsuccessful (will retry #${++this
+                    .count} after ${retrySeconds} seconds):`,
+                err
+            );
+            setTimeout(this.connectWithRetry, retrySeconds * 1000);
+        });
+
     };
+    
+    async dbDisconnect(){
+        if(this.mongoMemoryServer){
+            await mongoose.connection.dropDatabase();
+            await mongoose.connection.close();
+            await this.mongoMemoryServer.stop();
+        }
+    }
 }
 export default new MongooseService();

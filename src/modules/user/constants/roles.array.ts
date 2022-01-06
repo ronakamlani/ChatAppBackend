@@ -1,5 +1,5 @@
 export const rolesArr = [
-    "user",
-    "sales",
-    "admin",
+    "USER",
+    "SALES",
+    "ADMIN",
 ];

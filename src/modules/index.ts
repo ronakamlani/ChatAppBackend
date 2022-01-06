@@ -1,11 +1,15 @@
 
 import express from 'express';
-import { CommonRoutesConfig } from './common/common.routes.config';
-import { UserRoutes } from './user/user.routes.config';
+import { apiRouter } from './api.routers';
 
-export const initRoutes = (app:express.Application,routes:Array<CommonRoutesConfig>)=>{
+// export const initRoutes = (app:express.Application,routes:Array<CommonRoutesConfig>)=>{
     
-    routes.push(new UserRoutes(app));
+//     routes.push(new UserRoutes(app));
+    
 
-    return routes;
+//     return routes;
+// }
+export const initRoutes = (app:express.Application)=>{
+    
+    app.use('/api',apiRouter(app));
 }

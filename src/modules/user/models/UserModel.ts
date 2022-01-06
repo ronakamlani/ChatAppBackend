@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 
 import mongooseService from '../../common/services/mongoose.service';
@@ -7,9 +7,10 @@ import {rolesArr} from '../constants/roles.array';
 export const collectionName = 'User';
 const mongooseObj: typeof mongoose = mongooseService.getMongoose();
 
-type comparePasswordCallback = (err: unknown, isMatch: boolean)=>void;
+export type comparePasswordCallback = (err: unknown, isMatch: boolean)=>void;
 
 export class UserClass{
+    id: Types.ObjectId;
     email: string;
     password: string;
     firstName: string;
@@ -58,8 +59,6 @@ export const userSchema = new mongooseObj.Schema({
     password: {
         type : String,
         required : true,
-        minlength : 6,
-        maxlength : 20,
     },
     firstName: {
         type : String,
@@ -73,12 +72,13 @@ export const userSchema = new mongooseObj.Schema({
         minlength : 1,
         maxlength : 256,
     },
-    roles: [{
-        type : String,
-        enum : rolesArr,
-    }],
+    roles: {
+        type : [String],
+        //enum : rolesArr,
+        default : [rolesArr[0]],
+    },
 }, { 
-    id: false,
+    id: true,
     timestamps: true
 });
 

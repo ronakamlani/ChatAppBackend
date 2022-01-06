@@ -2,11 +2,11 @@
  * Auther : Ronak Amlani
  */
 import express from 'express';
-import {CommonRoutesConfig} from '../common/common.routes.config';
+import {CommonRoutesConfig} from '../../common/common.routes.config';
 
-import bodyValidationMiddleware from '../common/middlewares/body.validation.middleware';
-import userController from './controllers/user.controller';
-import registrationValidationRule from './validation/registration.validation';
+import bodyValidationMiddleware from '../../common/middlewares/body.validation.middleware';
+import userController from '../controllers/user.controller';
+import registrationValidationRule from '../validation/registration.validation';
 
 /**
  * % Access at :/api/user
@@ -29,8 +29,7 @@ export class UserRoutes extends CommonRoutesConfig {
         userRouter.route("/registration").post( registrationValidationRule, bodyValidationMiddleware.verifyBodyFieldsErrors, userController.registration);
 
         //Map with the main app.
-        this.app.use('/api/user',userRouter)
 
-        return this.app;
+        return userRouter;
     }
 }

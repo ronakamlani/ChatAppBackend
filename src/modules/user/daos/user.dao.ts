@@ -2,6 +2,7 @@ import * as UserModel from '../models/UserModel';
 import debug from 'debug';
 //import { UserDto } from '../dtos/user.dto';
 import { CreateUserDto } from '../dtos/createUser.dto';
+import { Types } from 'mongoose';
 
 const log: debug.IDebugger = debug('app:users-dao');
 
@@ -21,10 +22,18 @@ class UserDao {
         return user;
     }
 
-    async findOneByUsername(username:string):Promise<UserModel.UserDocument>{
+    async findOneByUsername(email:string):Promise<UserModel.UserDocument>{
         return this.userModel.findOne({
-            username:username,
+            email:email,
         }).exec();
+        
+    }
+
+    async findOneById(_id:Types.ObjectId):Promise<UserModel.UserDocument>{
+        return this.userModel.findOne({
+            _id
+        }).exec();
+        
     }
 }
 

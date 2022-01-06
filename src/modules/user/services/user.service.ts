@@ -1,7 +1,8 @@
-import { ResponseInterface } from "src/modules/common/interfaces/ResponseInterface";
+import { ResponseInterface } from "../../common/interfaces/ResponseInterface";
 import { UserDocument } from "../models/UserModel";
 import userDao from "../daos/user.dao";
 import { CreateUserDto } from "../dtos/createUser.dto";
+import { Types } from "mongoose";
 //import { UserDto } from "../dtos/user.dto";
 // import { PatchUserDto } from "../dtos/patchUser.dto";
 // import { PutUserDto } from "../dtos/putUser.dto";
@@ -18,8 +19,12 @@ class UserService  {
         }
     }
 
-    async findOneByUsername(username:string): Promise<UserDocument>{
-        return userDao.findOneByUsername(username);
+    async findOneByUsername(email:string): Promise<UserDocument>{
+        return userDao.findOneByUsername(email);
+    }
+
+    async findOneById(id: Types.ObjectId ): Promise<UserDocument>{
+        return userDao.findOneById(id);
     }
 
     // async deleteById(id: string) {
