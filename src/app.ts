@@ -3,6 +3,7 @@ import express from 'express';
 import * as winston from 'winston';
 import * as expressWinston from 'express-winston';
 import cors from 'cors';
+import helmet from 'helmet';
 import debug from 'debug';
 
 //import { CommonRoutesConfig } from './modules/common/common.routes.config';
@@ -26,6 +27,7 @@ const setupApp = ()=>{
     
     // here we are adding middleware to allow cross-origin requests
     app.use(cors());
+    app.use(helmet())
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: false}));
@@ -61,6 +63,7 @@ const setupApp = ()=>{
 
     
     app.listen(port,()=>{
+        console.log(`app started at http://localhost:${port}`);
         app.emit("app_started");
     });
     // server.listen(port, () => {

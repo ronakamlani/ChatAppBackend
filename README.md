@@ -1,9 +1,14 @@
 ## Description
-This project build for the create a better architecture and education purpose.
-**The project is still under progres**
+This project is an express.js boilerplate with the best folder structure practice and oauth2 login, registration flow along with the basic security standard and sonarqube(sonarLint).
 
-## Problem Statement
-One to one chat using socket.io with included best coding pratice.
+## Next TODO
+I am open to your suggestion, as I can see the following TODO should be next to complete the full project. 
+| #Name | #Description | 
+| :---:   | :--: |
+| Scope  | oAuth2 contain a scope property, to restrict some resources, just like user roles |
+| Client cors | I think we should add a field called "access_domains", we will compare the received request domain source. |
+| Cache user | We can save DB time by cache user query |
+| Socket.io | Active User list, Chat, Reply |
 
 ## Technology Stack
 | #Name | #Reason | 
@@ -11,19 +16,18 @@ One to one chat using socket.io with included best coding pratice.
 | Node.js |  |
 | Express.js |  |
 | Typescript |  |
-| socket.io | |
-| Passport | for the oauth purpose |
+| Passport | for the OAuth purpose |
+| Oauth 2 |  |
 
 ## Dependency
 | #Name | #Description | 
 | :---:   | :--: |
 | Node.js |  |
 | npm |  |
-| redis server |  |
 | Mongo DB |  |
 
 ## Installation
-**Please make a sure you have created .env file successfully. **
+**Please make a sure you have created .env, .env.developer .env.production file successfully.You can copy keys from .env.example **
 ```bash
 $ npm i
 ```
@@ -31,21 +35,23 @@ $ npm i
 ## Running the app
 
 ```bash
-$ npm run start //Without developer ".env.production is required"
 $ npm run start:dev //in the case of developer ".env.developer is required"
-$ npm run build //Build the dist folder 
-$ //Production is under progress
+$ npm run clean #Will remove js compiled folder ./dist
+$ npm run build //Build project
+$ npm run start:prod //Without developer ".env.production is required"
 
 # watch mode
-$ yarn start:dev
+$ npm run start:dev
 
 # production mode
-$ yarn start:prod
+$ npm run start:prod
 ```
 
 ## Test
 
 ```bash
-$ npm run test //.env.test is required
-$ npm run test:debug //Start testing along with debug mode ON ".env.test is required"
+$ npm run test:unit
+$ npm run test:unit:debug #Use to insight and debug clearly.
+$ npm run test:integration 
+$ npm run test:integration:debug #Use to insight and debug clearly.
 ```

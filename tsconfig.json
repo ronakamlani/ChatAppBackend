@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
+    "moduleResolution": "node",
+    "pretty": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -24,6 +26,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "typeRoots":[
+      "src/types/types.express.d.ts",
+      "node_modules/@types"
+    ],
     "paths": {
       "*": [
           "node_modules/*",
@@ -34,6 +40,12 @@
   "include": ["src/**/**/*"],
   "exclude": [
     "node_modules",
-    "src/test/**/*.ts"
+    "src/**/*.spec.ts"
+  ],
+  "ts-node": {
+    "files": true
+  },
+  "files":[
+    "src/types/types.express.d.ts"
   ]
 }

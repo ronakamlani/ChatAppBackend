@@ -1,7 +1,13 @@
 import { UserDocument } from "../modules/user/models/UserModel";
 
-declare module 'express' {
-    export interface Request {
-          user?: UserDocument;
-      }
+declare global {
+    namespace Express{
+        export interface Request {
+            user?: UserDocument;
+        }
+
+        export interface Request {
+            user?: UserDocument;
+        }
+    }
   }

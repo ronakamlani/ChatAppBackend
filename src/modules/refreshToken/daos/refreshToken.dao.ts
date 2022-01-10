@@ -30,6 +30,12 @@ class RefreshTokenDao{
         });
     }
 
+    async removeByUserId(userId:Types.ObjectId){
+        return this.refreshTokenModel.remove({
+            userId
+        });
+    }
+
     async removeById(_id:Types.ObjectId) {
         return this.refreshTokenModel.deleteOne({
             _id:_id

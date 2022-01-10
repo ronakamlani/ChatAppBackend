@@ -6,11 +6,11 @@ import {BasicStrategy} from 'passport-http';
 import BearerStrategy from 'passport-http-bearer';
 import LocalStrategy from 'passport-local';
 import ClientPasswordStrategy from 'passport-oauth2-client-password';
-import accessTokenDaos from '../../accessToken/daos/accessToken.dao';
 import { AccessTokenDocument } from '../../accessToken/models/accessToken.model';
 
 import clientService from '../../client/services/client.service';
 import userService from '../../user/services/user.service';
+import accessTokenService from '../../accessToken/services/accessToken.service';
 
 const debugLog: debug.IDebugger = debug('Passport.strategy');
 
@@ -96,7 +96,7 @@ const bearerStrategy = async (accessToken, done) => {
 	let accessTokenObj:AccessTokenDocument;
 
 	try{
-		accessTokenObj = await accessTokenDaos.findOneByAccessToken(accessToken);
+		accessTokenObj = await accessTokenService.findOneByAccessToken(accessToken);
 
 		if(accessTokenObj && accessTokenObj.userId){
 			const user = await userService.findOneById(accessTokenObj.userId);

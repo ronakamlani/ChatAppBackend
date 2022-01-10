@@ -135,7 +135,7 @@ import authorizationValidationRule from '../validations/authorization.validation
         // });
         
         
-        
+        authRouter.post('/logout',this.passport.authenticate('bearer', { session: false }),authController.doLogout);
 
         return authRouter;
     }

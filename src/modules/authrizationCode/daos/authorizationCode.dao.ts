@@ -20,6 +20,10 @@ class AuthorizationCodeDao{
     async removeById(_id:Types.ObjectId){
         this.authorizationCodeModel.remove({_id:_id});
     }
+
+    async removeByUserId(userId:Types.ObjectId){
+        this.authorizationCodeModel.remove({userId:userId});
+    }
 }
 
-export default new AuthorizationCodeDao;
+export default AuthorizationCodeDao;
