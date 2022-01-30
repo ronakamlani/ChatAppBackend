@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyValidationMiddleware from '../../common/middlewares/body.validation.middleware';
 import { CommonRoutesConfig } from "../../common/common.routes.config";
 
 import {
@@ -59,6 +60,7 @@ import authorizationValidationRule from '../validations/authorization.validation
         **/
          authRouter.post('/token', 
          authorizationValidationRule,
+         //bodyValidationMiddleware.verifyBodyFieldsErrors,
          this.passport.authenticate('basic', { session: false }),
          this.passport.authenticate('oauth2-client-password', { session: false }),
          tokenProcess
@@ -98,6 +100,7 @@ import authorizationValidationRule from '../validations/authorization.validation
         **/
         authRouter.post('/refresh-token', 
           authorizationValidationRule,
+          bodyValidationMiddleware.verifyBodyFieldsErrors,
           this.passport.authenticate('oauth2-client-password', { session: false }),
           tokenProcess
         );
@@ -125,7 +128,10 @@ import authorizationValidationRule from '../validations/authorization.validation
         * @apiUse InternalAPIServerError
         * @apiUse UnauthorizedError
         **/
-        authRouter.get('/authorize', authorizationValidationRule,  this.passport.authenticate(['basic'], { session: false }), authController.authorizationCodegenerator);
+        authRouter.get('/authorize', 
+        authorizationValidationRule,
+        bodyValidationMiddleware.verifyBodyFieldsErrors,
+        this.passport.authenticate(['basic'], { session: false }), authController.authorizationCodegenerator);
         // authRouter.get('/authorize', authorizationValidationRule,  this.passport.authenticate(['basic'], { session: false }), (_req:unknown,res:unknown|any)=>{
         //   res.send("okok");
         // });
